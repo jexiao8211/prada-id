@@ -12,10 +12,9 @@
 * 3. Global Utilities
 */
 
-@import "tailwindcss";
-/* @tailwind base;
+@tailwind base;
 @tailwind components;
-@tailwind utilities; */
+@tailwind utilities;
 
 /* Base styles */
 body {
