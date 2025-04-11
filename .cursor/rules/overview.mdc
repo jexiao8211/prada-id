@@ -1,0 +1,15 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+I am new to development. My background is in data science, so I am familiar with all things data, modeling, and visualization. Basically I am familiar with all things that can be done in a jupyter notebook. My langauge of choice is Python. Basically, I need your help to create a starter project that can also help me learn about development. 
+
+This is the overall idea for the project:
+A website that specializes in classifying vintage prada clothing to their season. I want users to be able to upload an image, then have a model process that image and return the season that it belongs to (ex: Spring Summer 1999, or Autumn Winter 2003). 
+
+This is how I want it to work:
+- There is a model (or many) in the backend that will be trained on vintage prada online listings. 
+- I want users to be able to upload images that will be processed by the model to return the classification
+- I want users to be able to upload images with their own labels, in order to increase the dataset size. This way, the models can be continuously updated and improved with user input
