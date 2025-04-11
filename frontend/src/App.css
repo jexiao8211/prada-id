@@ -1,3 +1,6 @@
+/* Custom styles for App component can be added here */
+/* We're using Tailwind for most styling, so this file can be empty for now */
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
