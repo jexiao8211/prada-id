@@ -18,7 +18,20 @@ A website that specializes in classifying vintage prada clothing to their season
 Frontend (frontend/):
 - Uses Vite + React + TypeScript
 - Uses Tailwind CSS for styling
+- Axios for API calls
 
 Backend (app/):
 - FastAPI
 - Poetry for virtual environment/package management
+- Uvicorn
+- Pydantic
+- SQLAlchemy
+- PostgreSQL
+- sklearn
+- pillow
+
+Development Tools
+- black
+
+# Things I want you to keep in mind
+- I want this project to be simple. Before you add more files, check the currently existing ones to make sure that what you're doing is not redundant, and to make sure that what you're doing is necessary

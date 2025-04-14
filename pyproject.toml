@@ -21,6 +21,8 @@ psycopg2-binary = "^2.9.9"
 alembic = "^1.13.1"
 pydantic = "^2.6.1"
 pydantic-settings = "^2.1.0"
+torch = "^2.6.0"
+opencv-python = "^4.11.0.86"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0.0"
