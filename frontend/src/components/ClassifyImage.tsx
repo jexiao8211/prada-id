@@ -8,7 +8,7 @@ interface ClassificationResult {
   confidence: number;
 }
 
-export const ImageUpload = () => {
+export const ContributeImage = () => {
   // State management using React hooks
   const [selectedFile, setSelectedFile] = useState<File | null>(null);  // Stores the selected image file
   const [preview, setPreview] = useState<string>('');  // Stores the preview URL of the selected image
@@ -20,7 +20,6 @@ export const ImageUpload = () => {
   const handleFileSelect = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     setError('');
-    setResult(null);
 
     if (!file) return;
 
@@ -43,7 +42,6 @@ export const ImageUpload = () => {
   const handleRemoveImage = useCallback(() => {
     setSelectedFile(null);
     setPreview('');
-    setResult(null);
     setError('');
   }, []);
 
@@ -59,7 +57,7 @@ export const ImageUpload = () => {
     setResult(null);
 
     try {
-      const response = await imageApi.uploadImage(selectedFile);
+      const response = await imageApi.classifyImage(selectedFile);
       setResult(response.data);
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to upload image. Please try again.');
