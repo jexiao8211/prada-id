@@ -10,7 +10,7 @@ from app.core.config import settings
 
 router = APIRouter()
 
-# Initialize the pipeline
+# Initialize the pipeline 
 pipeline = create_default_pipeline()
 
 
