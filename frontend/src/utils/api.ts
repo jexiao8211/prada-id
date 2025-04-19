@@ -72,33 +72,33 @@ api.interceptors.response.use(
 // API endpoints
 export const imageApi = {
 
-  // Upload an image for classification
-  classifyImage: async (file: File) => {
-    const formData = new FormData();
-    formData.append('image', file);
-    return api.post('/api/classify', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-  },
+  // // Upload an image for classification
+  // classifyImage: async (file: File) => {
+  //   const formData = new FormData();
+  //   formData.append('image', file);
+  //   return api.post('/api/classify', formData, {
+  //     headers: {
+  //       'Content-Type': 'multipart/form-data',
+  //     },
+  //   });
+  // },
 
   // Contribute an image for training
   contributeImage: async (file: File, season: string) => {
     const formData = new FormData();
     formData.append('image', file);
     formData.append('season', season);
-    return api.post('/api/contribute', formData, {
+    return api.post('/api/v1/data_operations/upload_item/', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
   },
 
-  // Get classification history
-  getHistory: async () => {
-    return api.get('/api/history');
-  },
+  // // Get classification history
+  // getHistory: async () => {
+  //   return api.get('/api/history');
+  // },
 };
 
 export default api; 

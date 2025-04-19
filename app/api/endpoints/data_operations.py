@@ -1,7 +1,7 @@
+import time
 from typing import Dict, List, Optional
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, UploadFile, File, Form
 from sqlalchemy.orm import Session
-from pydantic import BaseModel, validator
 import re
 import os
 
@@ -11,28 +11,28 @@ import app.db.models as models
 
 router = APIRouter()
 
-# Define Pydantic models
-class Item(BaseModel):
-    img_path: str
-    season: str
 
-    @validator('img_path')
-    def validate_img_path(cls, value):
-        # Check if the path exists
-        if not os.path.exists(value):
-            raise ValueError(f"The path '{value}' does not exist.")
-        return value
+@router.post("/upload_item/")
+async def upload_item(image: UploadFile = File(...), season: str = Form(...), db: Session = Depends(get_db)):
+    season_dir = os.path.join('C:/Users/jexia/projects/prada-id/app/images', season.replace(' ', '_'))
+    os.makedirs(season_dir, exist_ok=True)
 
-    @validator('season')
-    def validate_season(cls, value):
-        if not re.compile(r'^(Spring Summer|Fall Winter) \d{4}$').match(value):
-            raise ValueError("Season must start with 'Spring Summer' or 'Fall Winter' and end with a 4-digit year.")
-        return value    
+    base_image_filename = f"{int(time.time())}.jpg"
+    image_path = os.path.join(season_dir, base_image_filename).replace("\\","/")
 
+    # Check if the image path already exists and add a "_<num>" if it does
+    if os.path.exists(image_path):
+        num = 1
+        while os.path.exists(image_path):
+            image_filename = f"{base_image_filename.split('.')[0]}_{num}.jpg"
+            image_path = os.path.join(season_dir, image_filename).replace("\\","/")
+            num += 1
 
-@router.post("/item/")
-async def create_item(item: Item, db: Session = Depends(get_db)):
-    db_item = models.Images(image_path=item.img_path, season=item.season)
+    # Save the uploaded image file
+    with open(image_path, "wb") as image_file:
+        image_file.write(await image.read())  # Read the image data from the UploadFile
+
+    db_item = models.Images(image_path=image_path, season=season)
     db.add(db_item)
     db.commit()
     db.refresh(db_item)
