@@ -29,11 +29,12 @@ class ResizePreprocessor(ImagePreprocessor):
 
 
 class BackgroundRemovalPreprocessor(ImagePreprocessor):
-    """Remove background from clothing images."""
+    """Remove background from clothing images using the autodistilled yolov8-seg model."""
     
     def __init__(self, threshold: int = 127):
         self.threshold = threshold
     
+    # TODO: add imput for clothing type?
     def process(self, image: Union[Image.Image, np.ndarray]) -> Union[Image.Image, np.ndarray]:
         # Convert PIL Image to numpy array if needed
         if isinstance(image, Image.Image):
@@ -44,7 +45,7 @@ class BackgroundRemovalPreprocessor(ImagePreprocessor):
         # Convert to grayscale
         gray = cv2.cvtColor(img_array, cv2.COLOR_RGB2GRAY)
         
-        # Apply threshold to create mask
+        # TODO: Apply model to create mask
         _, mask = cv2.threshold(gray, self.threshold, 255, cv2.THRESH_BINARY_INV)
         
         # Apply mask to original image

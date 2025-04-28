@@ -8,7 +8,7 @@ interface ClassificationResult {
   confidence: number;
 }
 
-export const ContributeImage = () => {
+export const ClassifyImage = () => {
   // State management using React hooks
   const [selectedFile, setSelectedFile] = useState<File | null>(null);  // Stores the selected image file
   const [preview, setPreview] = useState<string>('');  // Stores the preview URL of the selected image

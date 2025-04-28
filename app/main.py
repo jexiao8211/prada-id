@@ -2,8 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Annotated
 
-# from app.api.endpoints import classify, training, data_operations
-from app.api.endpoints import data_operations
+from app.api.endpoints import data_operations, model
+
 
 from app.core.config import settings
 from app.db.session import engine
@@ -18,19 +18,20 @@ app = FastAPI(
 models.Base.metadata.create_all(bind=engine)    # create all the tables in the database
 
 
-# # Configure CORS
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=["http://localhost:5173"],  # React frontend
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # React frontend
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Include routers
 # app.include_router(classify.router, prefix=settings.API_V1_STR + "/classify", tags=["classification"])
 # app.include_router(training.router, prefix=settings.API_V1_STR + "/training", tags=["training"])
 app.include_router(data_operations.router, prefix=settings.API_V1_STR + "/data_operations", tags=["data_operations"])
+app.include_router(model.router, prefix=settings.API_V1_STR + "/models", tags=["models"])
 
 @app.get("/")
 async def root():

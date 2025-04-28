@@ -16,8 +16,9 @@ const MainLayout = () => {
             {/* Navigation Links */}
             <nav className="flex items-center space-x-8">
               <Link to="/" className="text-gray-700 hover:text-black text-sm font-medium">Home</Link>
+              <Link to="/classify" className="text-gray-700 hover:text-black text-sm font-medium">Classify</Link>
+              <Link to="/contribute" className="text-gray-700 hover:text-black text-sm font-medium">Contribute</Link>
               <Link to="/about" className="text-gray-700 hover:text-black text-sm font-medium">About</Link>
-              <Link to="/services" className="text-gray-700 hover:text-black text-sm font-medium">Services</Link>
               <Link to="/contact" className="text-gray-700 hover:text-black text-sm font-medium">Contact</Link>
             </nav>
           </div>
@@ -29,9 +30,9 @@ const MainLayout = () => {
       </main>
       
       {/* Footer */}
-      <footer className="bg-gray-900 text-white p-4 border-t border-gray-800">
+      <footer className="bg-white-900 text-black p-4 border-t border-gray-800">
         <div className="container mx-auto px-4">
-          <p className="text-center">© 2024 Prada ID. All rights reserved.</p>
+          <p className="text-center">© 2025 Prada ID. All rights reserved.</p>
         </div>
       </footer>
     </div>

@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Optional, Union
 import numpy as np
 from PIL import Image
 
-from app.ml.classifiers import Classifier, NearestNeighborClassifier, ClusteringClassifier, EnsembleClassifier
+from app.ml.classifiers import Classifier, NearestNeighborClassifier, EnsembleClassifier
 from app.ml.feature_extraction import FeatureExtractor, ResNetFeatureExtractor, PCAFeatureExtractor
 from app.ml.preprocessing import ImagePreprocessor, ResizePreprocessor, BackgroundRemovalPreprocessor, NormalizePreprocessor, PreprocessingPipeline
 
@@ -16,6 +16,7 @@ class PradaClassificationPipeline:
         preprocessors: Optional[List[ImagePreprocessor]] = None,
         feature_extractors: Optional[List[FeatureExtractor]] = None,
         classifier: Optional[Classifier] = None,
+        # pretrained: Optional[bool] = False
     ):
         # Default preprocessors
         if preprocessors is None:
@@ -64,8 +65,8 @@ class PradaClassificationPipeline:
     
     def predict(self, image: Union[Image.Image, np.ndarray]) -> Dict[str, Any]:
         """Make a prediction on a single image."""
-        if not self.is_fitted:
-            raise ValueError("Pipeline must be fitted before use")
+        # if not self.is_fitted:
+        #     raise ValueError("Pipeline must be fitted before use")
         
         # Preprocess image
         processed_image = self.preprocessing_pipeline.process(image)
@@ -120,32 +121,35 @@ def create_default_pipeline() -> PradaClassificationPipeline:
     """Create a default pipeline with recommended components."""
     # Preprocessors
     preprocessors = [
-        ResizePreprocessor(target_size=(224, 224)),
+        # ResizePreprocessor(target_size=(224, 224)),
         BackgroundRemovalPreprocessor(),
-        NormalizePreprocessor()
+        # NormalizePreprocessor()
     ]
     
     # Feature extractors
     resnet_extractor = ResNetFeatureExtractor(model_name="resnet50")
-    pca_extractor = PCAFeatureExtractor(resnet_extractor, n_components=100)
+    # pca_extractor = PCAFeatureExtractor(resnet_extractor, n_components=100)
     
-    feature_extractors = [pca_extractor]
+    feature_extractors = [
+        resnet_extractor
+    ]
     
     # Classifiers
-    nn_classifier = NearestNeighborClassifier(n_neighbors=5)
-    cluster_classifier = ClusteringClassifier(n_clusters=10)
-    
-    # Ensemble classifier
-    ensemble = EnsembleClassifier(
-        classifiers=[nn_classifier, cluster_classifier],
-        weights=[0.7, 0.3]  # Give more weight to nearest neighbor
-    )
+    knn_classifier = NearestNeighborClassifier(n_neighbors=5)
+    knn_ckpt = np.load('C:/Users/jexia/projects/prada-id/app/ml/ckpts/features_labels.npz')
+    knn_classifier.fit(knn_ckpt['X'], knn_ckpt['y'])
+
+    # # Ensemble classifier
+    # ensemble = EnsembleClassifier(
+    #     classifiers=[nn_classifier, cluster_classifier],
+    #     weights=[0.7, 0.3]  # Give more weight to nearest neighbor
+    # )
     
     # Create pipeline
     pipeline = PradaClassificationPipeline(
         preprocessors=preprocessors,
         feature_extractors=feature_extractors,
-        classifier=ensemble
+        classifier=knn_classifier
     )
     
     return pipeline 

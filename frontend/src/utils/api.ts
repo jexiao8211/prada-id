@@ -95,6 +95,16 @@ export const imageApi = {
     });
   },
 
+  classifyImage: async (file: File) => {
+    const formData = new FormData();
+    formData.append('image', file);
+    return api.post('/api/v1/models/classify/', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
+
   // // Get classification history
   // getHistory: async () => {
   //   return api.get('/api/history');
